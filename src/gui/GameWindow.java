@@ -6,11 +6,12 @@ import entities.SnakePart;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GameWindow extends JFrame {
     private JPanel gamePanel;
 
-    public GameWindow(ArrayList<SnakePart> snake, Apple apple, int width, int height) {
+    public GameWindow(CopyOnWriteArrayList<SnakePart> snake, Apple apple, int width, int height) {
         super("Snake: The game");
         setResizable(false);
         setSize(width, height);
