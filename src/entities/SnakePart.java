@@ -45,4 +45,10 @@ public class SnakePart {
     public void increaseY(int increment) {
         y += increment;
     }
+    public void decreaseX(int increment) {
+        x -= increment;
+    }
+    public void decreaseY(int increment) {
+        y -= increment;
+    }
 }

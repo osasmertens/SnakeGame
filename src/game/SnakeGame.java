@@ -23,7 +23,7 @@ public class SnakeGame {
         generateApple();
         gameWindow = new GameWindow(snake, apple, WIDTH_WINDOW, HEIGHT_WINDOW);
         gameover = false;
-        moveSnake(INCREMENT);
+        //moveSnake(INCREMENT);
 
     }
 
@@ -38,15 +38,40 @@ public class SnakeGame {
         apple = new Apple(Color.RED, random.nextInt(WIDTH_WINDOW/2), random.nextInt(WIDTH_WINDOW/2));
     }
 
-    private void moveSnake(int speed) {
-        while (!gameover) {
-            for (SnakePart snakePart : snake) {
-                snakePart.increaseX(speed);
-                gameWindow.repaint();
-                sleep();
-            }
-        }
+    private void moveSnake(int speed, Direction direction) {
 
+        switch (direction) {
+            case UP:
+                for (SnakePart snakePart : snake) {
+                    snakePart.increaseY(speed);
+                    gameWindow.repaint();
+                    sleep();
+                }
+            case DOWN:
+                for (SnakePart snakePart : snake) {
+                    snakePart.decreaseY(speed);
+                    gameWindow.repaint();
+                    sleep();
+                }
+            case LEFT:
+                for (SnakePart snakePart : snake) {
+                    snakePart.decreaseX(speed);
+                    gameWindow.repaint();
+                    sleep();
+                }
+            case RIGHT:
+                for (SnakePart snakePart : snake) {
+                    snakePart.decreaseX(speed);
+                    gameWindow.repaint();
+                    sleep();
+                }
+            default:
+                for (SnakePart snakePart : snake) {
+                    snakePart.decreaseX(speed);
+                    gameWindow.repaint();
+                    sleep();
+                }
+        }
     }
 
     private void sleep() {
