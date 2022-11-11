@@ -8,7 +8,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class GameWindow extends JFrame {
-
+    private JPanel gamePanel;
 
     public GameWindow(ArrayList<SnakePart> snake, Apple apple, int width, int height) {
         super("Snake: The game");
@@ -17,8 +17,13 @@ public class GameWindow extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         getContentPane().setBackground(Color.BLACK);
-        getContentPane().add(new GamePanel(snake, apple));
+        gamePanel = new GamePanel(snake, apple);
+        getContentPane().add(gamePanel);
         setVisible(true);
+    }
+
+    public JPanel getGamePanel() {
+        return gamePanel;
     }
 
 }
