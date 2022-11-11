@@ -38,9 +38,7 @@ public class SnakePart {
         this.y = y;
     }
 
-    public void increaseX(int increment) {
-        x += increment;
-    }
+    public void increaseX(int increment) {x += increment;}
 
     public void increaseY(int increment) {
         y += increment;

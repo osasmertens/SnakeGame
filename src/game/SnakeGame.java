@@ -8,17 +8,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class SnakeGame {
-    private final int WIDTH_WINDOW = 800;
+    private final int WIDTH_WINDOW = 600;
     private final int HEIGHT_WINDOW = 600;
-    private final int INCREMENT = 1;
+    private final int INCREMENT = 20;
     private final int SLEEP_INTERVAL = 200;
-    private final int MAX_X_BOUND = WIDTH_WINDOW/40;
-    private final int MAX_Y_BOUND = HEIGHT_WINDOW/40;
+    private final int UNIT_SIZE = 20;
     private boolean gameOver;
     private GameWindow gameWindow;
     private CopyOnWriteArrayList<SnakePart> snake;
@@ -40,13 +38,13 @@ public class SnakeGame {
 
     private void createSnake() {
         snake = new CopyOnWriteArrayList<>();
-        SnakePart head = new SnakePart(new Color(91, 171, 63), 10, 10);
+        SnakePart head = new SnakePart(new Color(91, 171, 63), 0, 0);
         snake.add(head);
     }
 
     private void generateApple() {
         Random random = new Random();
-        apple = new Apple(Color.RED, random.nextInt(0,MAX_X_BOUND), random.nextInt(0,MAX_Y_BOUND));
+        apple = new Apple(Color.RED, random.nextInt(WIDTH_WINDOW/ UNIT_SIZE)* UNIT_SIZE, random.nextInt(HEIGHT_WINDOW/ UNIT_SIZE)* UNIT_SIZE);
     }
 
     private void move() {
@@ -139,8 +137,8 @@ public class SnakeGame {
 
     public void generateNewFoodPosition() {
         Random random = new Random();
-        apple.setX(random.nextInt(0, MAX_X_BOUND));
-        apple.setY(random.nextInt(0, MAX_Y_BOUND));
+        apple.setX(random.nextInt(WIDTH_WINDOW/ UNIT_SIZE)* UNIT_SIZE);
+        apple.setY(random.nextInt(HEIGHT_WINDOW/ UNIT_SIZE)* UNIT_SIZE);
     }
 
 
