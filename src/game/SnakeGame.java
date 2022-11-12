@@ -4,18 +4,19 @@ import entities.Apple;
 import entities.SnakePart;
 import gui.GameWindow;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.AbstractAction;
+import javax.swing.KeyStroke;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class SnakeGame {
-    private final int WIDTH_WINDOW = 600;
+    private final int WIDTH_WINDOW = 800;
     private final int HEIGHT_WINDOW = 600;
     private final int INCREMENT = 20;
-    private final int SLEEP_INTERVAL = 200;
+    private final int SLEEP_INTERVAL = 100;
     private final int UNIT_SIZE = 20;
     private boolean gameOver;
     private GameWindow gameWindow;
@@ -52,27 +53,31 @@ public class SnakeGame {
             if (i == 0) {
                 switch (direction) {
                     case UP:
-                        snake.get(0).decreaseY(INCREMENT);
+                        snake.get(i).decreaseY(INCREMENT);
+                        checkApple();
                         sleep();
                         gameWindow.repaint();
                         break;
                     case DOWN:
-                        snake.get(0).increaseY(INCREMENT);
+                        snake.get(i).increaseY(INCREMENT);
+                        checkApple();
                         sleep();
                         gameWindow.repaint();
                         break;
                     case RIGHT:
-                        snake.get(0).increaseX(INCREMENT);
+                        snake.get(i).increaseX(INCREMENT);
+                        checkApple();
                         sleep();
                         gameWindow.repaint();
                         break;
                     case LEFT:
-                        snake.get(0).decreaseX(INCREMENT);
+                        snake.get(i).decreaseX(INCREMENT);
+                        checkApple();
                         sleep();
                         gameWindow.repaint();
                         break;
                 }
-                checkCollision();
+                //checkCollision();
             }
             else {
                 snake.get(i).setX(snake.get(i - 1).getX());
@@ -122,13 +127,13 @@ public class SnakeGame {
                 public void actionPerformed(ActionEvent e) {
                     System.out.println("Pressed right");
                     direction = Direction.RIGHT;
-                    checkCollision();
+                    checkApple();
                 }
             });
         }
     }
 
-    private void checkCollision() {
+    private void checkApple() {
         if (snake.get(0).getX() == apple.getX() && snake.get(0).getY() == apple.getY()) {
             snake.add(new SnakePart(Color.GREEN, snake.get(snake.size() - 1).getX(), snake.get(snake.size() - 1).getY()));
             generateNewFoodPosition();
@@ -137,8 +142,8 @@ public class SnakeGame {
 
     public void generateNewFoodPosition() {
         Random random = new Random();
-        apple.setX(random.nextInt(WIDTH_WINDOW/ UNIT_SIZE)* UNIT_SIZE);
-        apple.setY(random.nextInt(HEIGHT_WINDOW/ UNIT_SIZE)* UNIT_SIZE);
+        apple.setX(random.nextInt((WIDTH_WINDOW/UNIT_SIZE) - UNIT_SIZE)* UNIT_SIZE);
+        apple.setY(random.nextInt((HEIGHT_WINDOW/UNIT_SIZE) - UNIT_SIZE)* UNIT_SIZE);
     }
 
 
