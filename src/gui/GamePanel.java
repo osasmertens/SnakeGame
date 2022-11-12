@@ -3,8 +3,9 @@ package gui;
 import entities.Apple;
 import entities.SnakePart;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GamePanel extends JPanel {
