@@ -12,15 +12,16 @@ public class GamePanel extends JPanel {
 
     private static final int HEIGHT_PANEL = 600;
     private static final int WIDTH_PANEL = 600;
-    private static final int UNIT_SIZE = 20;
+    private final int UNIT_SIZE;
     private CopyOnWriteArrayList<SnakePart> snake;
     private Apple apple;
 
-    public GamePanel(CopyOnWriteArrayList<SnakePart> snake, Apple apple) {
+    public GamePanel(CopyOnWriteArrayList<SnakePart> snake, Apple apple, int unitsize) {
         setBackground(Color.BLACK);
         setSize(WIDTH_PANEL, HEIGHT_PANEL);
         this.snake = snake;
         this.apple = apple;
+        this.UNIT_SIZE = unitsize;
     }
 
     public void paintComponent(Graphics g) {
@@ -30,7 +31,6 @@ public class GamePanel extends JPanel {
     }
 
     private void drawSnake(Graphics g) {
-        //for (SnakePart snakePart : snake) {
         for (int i = 0; i < snake.size(); i++) {
             g.setColor(snake.get(i).getColor());
             g.fillRect(snake.get(i).getX(), snake.get(i).getY(), UNIT_SIZE, UNIT_SIZE);
