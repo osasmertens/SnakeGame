@@ -50,25 +50,25 @@ public class SnakeGame {
                     case UP:
                         snake.get(i).decreaseY(INCREMENT);
                         checkApple();
-                        sleep();
+                        sleep(SLEEP_INTERVAL);
                         gameWindow.repaint();
                         break;
                     case DOWN:
                         snake.get(i).increaseY(INCREMENT);
                         checkApple();
-                        sleep();
+                        sleep(SLEEP_INTERVAL);
                         gameWindow.repaint();
                         break;
                     case RIGHT:
                         snake.get(i).increaseX(INCREMENT);
                         checkApple();
-                        sleep();
+                        sleep(SLEEP_INTERVAL);
                         gameWindow.repaint();
                         break;
                     case LEFT:
                         snake.get(i).decreaseX(INCREMENT);
                         checkApple();
-                        sleep();
+                        sleep(SLEEP_INTERVAL);
                         gameWindow.repaint();
                         break;
                 }
@@ -80,9 +80,9 @@ public class SnakeGame {
         }
     }
 
-    private void sleep() {
+    private void sleep(int millisecs) {
         try {
-            Thread.sleep(SLEEP_INTERVAL);
+            Thread.sleep(millisecs);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -104,14 +104,12 @@ public class SnakeGame {
                 if (e.getKeyCode() == KeyEvent.VK_RIGHT && direction != Direction.LEFT) {
                     direction = Direction.RIGHT;
                     System.out.println("Pressed Right");
-
                 } else if (e.getKeyCode() == KeyEvent.VK_LEFT && direction != Direction.RIGHT) {
                     direction = Direction.LEFT;
                     System.out.println("Pressed Left");
                 } else if (e.getKeyCode() == KeyEvent.VK_UP && direction != Direction.DOWN) {
                     direction = Direction.UP;
                     System.out.println("Pressed Up");
-
                 } else if (e.getKeyCode() == KeyEvent.VK_DOWN && direction != Direction.UP) {
                     direction = Direction.DOWN;
                     System.out.println("Pressed Down");
@@ -136,6 +134,12 @@ public class SnakeGame {
         Random random = new Random();
         apple.setX(random.nextInt((WIDTH_WINDOW/UNIT_SIZE) - UNIT_SIZE)* UNIT_SIZE);
         apple.setY(random.nextInt((HEIGHT_WINDOW/UNIT_SIZE) - UNIT_SIZE)* UNIT_SIZE);
+        for (SnakePart snakePart : snake) {
+            if (snakePart.getX() == apple.getX() && snakePart.getY() == apple.getY()) {
+                System.out.println("Apple on snake!");
+                generateNewFoodPosition();
+            }
+        }
     }
 
     private void checkApple() {
