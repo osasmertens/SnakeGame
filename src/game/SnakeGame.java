@@ -20,11 +20,13 @@ public class SnakeGame {
     private GameWindow gameWindow;
     private CopyOnWriteArrayList<SnakePart> snake;
     private Apple apple;
-    private Direction direction;
+    private Direction currentDirection;
+    private Direction newDirection;
 
     public SnakeGame() {
         createSnake();
-        direction = Direction.RIGHT;
+        currentDirection = Direction.RIGHT;
+        newDirection = Direction.RIGHT;
         generateApple();
         gameWindow = new GameWindow(snake, apple, WIDTH_WINDOW, HEIGHT_WINDOW, UNIT_SIZE);
         setKeyBindings();
@@ -46,7 +48,7 @@ public class SnakeGame {
     private void move() {
         for (int i = snake.size() - 1; i >= 0; i--) {
             if (i == 0) {
-                switch (direction) {
+                switch (currentDirection) {
                     case UP:
                         snake.get(i).decreaseY(INCREMENT);
                         checkApple();
@@ -77,6 +79,7 @@ public class SnakeGame {
                 snake.get(i).setX(snake.get(i - 1).getX());
                 snake.get(i).setY(snake.get(i - 1).getY());
             }
+
         }
     }
 
@@ -101,17 +104,17 @@ public class SnakeGame {
 
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_RIGHT && direction != Direction.LEFT) {
-                    direction = Direction.RIGHT;
+                if (e.getKeyCode() == KeyEvent.VK_RIGHT && currentDirection != Direction.LEFT) {
+                    newDirection = Direction.RIGHT;
                     System.out.println("Pressed Right");
-                } else if (e.getKeyCode() == KeyEvent.VK_LEFT && direction != Direction.RIGHT) {
-                    direction = Direction.LEFT;
+                } else if (e.getKeyCode() == KeyEvent.VK_LEFT && currentDirection != Direction.RIGHT) {
+                    newDirection = Direction.LEFT;
                     System.out.println("Pressed Left");
-                } else if (e.getKeyCode() == KeyEvent.VK_UP && direction != Direction.DOWN) {
-                    direction = Direction.UP;
+                } else if (e.getKeyCode() == KeyEvent.VK_UP && currentDirection != Direction.DOWN) {
+                    newDirection = Direction.UP;
                     System.out.println("Pressed Up");
-                } else if (e.getKeyCode() == KeyEvent.VK_DOWN && direction != Direction.UP) {
-                    direction = Direction.DOWN;
+                } else if (e.getKeyCode() == KeyEvent.VK_DOWN && currentDirection != Direction.UP) {
+                    newDirection = Direction.DOWN;
                     System.out.println("Pressed Down");
                 }
             }
@@ -127,6 +130,7 @@ public class SnakeGame {
     private void startGame() {
         while (!gameOver) {
             move();
+            currentDirection = newDirection;
         }
     }
 
