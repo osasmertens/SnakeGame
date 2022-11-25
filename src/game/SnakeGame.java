@@ -29,15 +29,15 @@ public class SnakeGame {
     private final int ADDED_SCORE = 10;
 
     public SnakeGame() {
+        score = 0;
         createSnake();
         currentDirection = Direction.RIGHT;
         newDirection = Direction.RIGHT;
         generateApple();
         gameWindow = new GameWindow(snake, apple, WIDTH_WINDOW, HEIGHT_WINDOW, UNIT_SIZE);
-        scoreLabel = gameWindow.getInfoPanel().getScoreLabel();
-        score = 0;
-        scoreLabel.setText("Score: " + score);
         setKeyBindings();
+        scoreLabel = gameWindow.getInfoPanel().getScoreLabel();
+        scoreLabel.setText("Score: " + score);
         gameOver = false;
         startGame();
     }
@@ -143,8 +143,8 @@ public class SnakeGame {
 
     public void generateNewFoodPosition() {
         Random random = new Random();
-        apple.setX(random.nextInt((WIDTH_WINDOW/UNIT_SIZE) - UNIT_SIZE)* UNIT_SIZE);
-        apple.setY(random.nextInt((HEIGHT_WINDOW/UNIT_SIZE) - UNIT_SIZE)* UNIT_SIZE);
+        apple.setX(random.nextInt((WIDTH_WINDOW/UNIT_SIZE) * UNIT_SIZE) - 2 * UNIT_SIZE);
+        apple.setY(random.nextInt((HEIGHT_WINDOW/UNIT_SIZE) * UNIT_SIZE) - 2 * UNIT_SIZE);
         for (SnakePart snakePart : snake) {
             if (snakePart.getX() == apple.getX() && snakePart.getY() == apple.getY()) {
                 System.out.println("Apple on snake!");
