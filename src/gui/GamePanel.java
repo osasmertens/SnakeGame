@@ -5,12 +5,13 @@ import entities.SnakePart;
 
 import javax.swing.JPanel;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GamePanel extends JPanel {
 
-    private static final int HEIGHT_PANEL = 600;
+    private static final int HEIGHT_PANEL = 800;
     private static final int WIDTH_PANEL = 600;
     private final int UNIT_SIZE;
     private CopyOnWriteArrayList<SnakePart> snake;
@@ -18,7 +19,7 @@ public class GamePanel extends JPanel {
 
     public GamePanel(CopyOnWriteArrayList<SnakePart> snake, Apple apple, int unitsize) {
         setBackground(Color.BLACK);
-        setSize(WIDTH_PANEL, HEIGHT_PANEL);
+        setPreferredSize(new Dimension(WIDTH_PANEL, HEIGHT_PANEL));
         this.snake = snake;
         this.apple = apple;
         this.UNIT_SIZE = unitsize;

@@ -3,6 +3,8 @@ package game;
 import entities.Apple;
 import entities.SnakePart;
 import gui.GameWindow;
+
+import javax.swing.JLabel;
 import javax.swing.KeyStroke;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
@@ -22,6 +24,9 @@ public class SnakeGame {
     private Apple apple;
     private Direction currentDirection;
     private Direction newDirection;
+    private int score;
+    private JLabel scoreLabel;
+    private final int ADDED_SCORE = 10;
 
     public SnakeGame() {
         createSnake();
@@ -29,6 +34,9 @@ public class SnakeGame {
         newDirection = Direction.RIGHT;
         generateApple();
         gameWindow = new GameWindow(snake, apple, WIDTH_WINDOW, HEIGHT_WINDOW, UNIT_SIZE);
+        scoreLabel = gameWindow.getInfoPanel().getScoreLabel();
+        score = 0;
+        scoreLabel.setText("Score: " + score);
         setKeyBindings();
         gameOver = false;
         startGame();
@@ -52,25 +60,25 @@ public class SnakeGame {
                     case UP:
                         snake.get(i).decreaseY(INCREMENT);
                         checkApple();
-                        sleep(SLEEP_INTERVAL);
+                        sleep();
                         gameWindow.repaint();
                         break;
                     case DOWN:
                         snake.get(i).increaseY(INCREMENT);
                         checkApple();
-                        sleep(SLEEP_INTERVAL);
+                        sleep();
                         gameWindow.repaint();
                         break;
                     case RIGHT:
                         snake.get(i).increaseX(INCREMENT);
                         checkApple();
-                        sleep(SLEEP_INTERVAL);
+                        sleep();
                         gameWindow.repaint();
                         break;
                     case LEFT:
                         snake.get(i).decreaseX(INCREMENT);
                         checkApple();
-                        sleep(SLEEP_INTERVAL);
+                        sleep();
                         gameWindow.repaint();
                         break;
                 }
@@ -79,13 +87,13 @@ public class SnakeGame {
                 snake.get(i).setX(snake.get(i - 1).getX());
                 snake.get(i).setY(snake.get(i - 1).getY());
             }
-
+            currentDirection = newDirection;
         }
     }
 
-    private void sleep(int millisecs) {
+    private void sleep() {
         try {
-            Thread.sleep(millisecs);
+            Thread.sleep(SLEEP_INTERVAL);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -130,7 +138,6 @@ public class SnakeGame {
     private void startGame() {
         while (!gameOver) {
             move();
-            currentDirection = newDirection;
         }
     }
 
@@ -148,6 +155,8 @@ public class SnakeGame {
 
     private void checkApple() {
         if (snake.get(0).getX() == apple.getX() && snake.get(0).getY() == apple.getY()) {
+            score += ADDED_SCORE;
+            scoreLabel.setText("Score: " + score);
             snake.add(new SnakePart(Color.GREEN, snake.get(snake.size() - 1).getX(), snake.get(snake.size() - 1).getY()));
             generateNewFoodPosition();
         }
