@@ -159,11 +159,15 @@ public class SnakeGame {
 
     private void checkApple() {
         if (snake.get(0).getX() == apple.getX() && snake.get(0).getY() == apple.getY()) {
-            score += ADDED_SCORE;
-            scoreLabel.setText("Score: " + score);
+            increaseScore();
             snake.add(new SnakePart(Color.GREEN, snake.get(snake.size() - 1).getX(), snake.get(snake.size() - 1).getY()));
             generateNewFoodPosition();
         }
+    }
+
+    private void increaseScore() {
+        score += ADDED_SCORE;
+        scoreLabel.setText("Score: " + score);
     }
 
     private void checkSnakeCollision(SnakePart head) {
