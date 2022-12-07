@@ -59,24 +59,28 @@ public class SnakeGame {
                 switch (currentDirection) {
                     case UP:
                         snake.get(i).decreaseY(INCREMENT);
+                        checkSnakeCollision(snake.get(i));
                         checkApple();
                         sleep();
                         gameWindow.repaint();
                         break;
                     case DOWN:
                         snake.get(i).increaseY(INCREMENT);
+                        checkSnakeCollision(snake.get(i));
                         checkApple();
                         sleep();
                         gameWindow.repaint();
                         break;
                     case RIGHT:
                         snake.get(i).increaseX(INCREMENT);
+                        checkSnakeCollision(snake.get(i));
                         checkApple();
                         sleep();
                         gameWindow.repaint();
                         break;
                     case LEFT:
                         snake.get(i).decreaseX(INCREMENT);
+                        checkSnakeCollision(snake.get(i));
                         checkApple();
                         sleep();
                         gameWindow.repaint();
@@ -143,8 +147,8 @@ public class SnakeGame {
 
     public void generateNewFoodPosition() {
         Random random = new Random();
-        apple.setX(random.nextInt((WIDTH_WINDOW/UNIT_SIZE) * UNIT_SIZE) - 2 * UNIT_SIZE);
-        apple.setY(random.nextInt((HEIGHT_WINDOW/UNIT_SIZE) * UNIT_SIZE) - 2 * UNIT_SIZE);
+        apple.setX(random.nextInt((WIDTH_WINDOW/UNIT_SIZE) - UNIT_SIZE) * UNIT_SIZE );
+        apple.setY(random.nextInt((HEIGHT_WINDOW/UNIT_SIZE)  - UNIT_SIZE) * UNIT_SIZE);
         for (SnakePart snakePart : snake) {
             if (snakePart.getX() == apple.getX() && snakePart.getY() == apple.getY()) {
                 System.out.println("Apple on snake!");
@@ -159,6 +163,14 @@ public class SnakeGame {
             scoreLabel.setText("Score: " + score);
             snake.add(new SnakePart(Color.GREEN, snake.get(snake.size() - 1).getX(), snake.get(snake.size() - 1).getY()));
             generateNewFoodPosition();
+        }
+    }
+
+    private void checkSnakeCollision(SnakePart head) {
+        for (int i = 1; i < snake.size() - 1; i++) {
+            if (head.getX() == snake.get(i).getX() && head.getY() == snake.get(i).getY()) {
+                gameOver = true;
+            }
         }
     }
 
