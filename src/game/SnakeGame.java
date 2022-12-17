@@ -24,12 +24,14 @@ public class SnakeGame {
     private Apple apple;
     private Direction currentDirection;
     private Direction newDirection;
+    private Random random;
     private int score;
     private JLabel scoreLabel;
     private final int ADDED_SCORE = 10;
 
     public SnakeGame() {
         score = 0;
+        random = new Random();
         createSnake();
         currentDirection = Direction.RIGHT;
         newDirection = Direction.RIGHT;
@@ -146,7 +148,6 @@ public class SnakeGame {
     }
 
     public void generateNewFoodPosition() {
-        Random random = new Random();
         apple.setX(random.nextInt((WIDTH_WINDOW/UNIT_SIZE) - UNIT_SIZE) * UNIT_SIZE );
         apple.setY(random.nextInt((HEIGHT_WINDOW/UNIT_SIZE)  - UNIT_SIZE) * UNIT_SIZE);
         for (SnakePart snakePart : snake) {
