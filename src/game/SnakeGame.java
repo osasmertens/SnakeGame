@@ -15,7 +15,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class SnakeGame {
     private final int WIDTH_WINDOW = 800;
     private final int HEIGHT_WINDOW = 600;
-    private final int INCREMENT = 20;
     private final int SLEEP_INTERVAL = 100;
     private final int UNIT_SIZE = 20;
     private boolean gameOver;
@@ -60,28 +59,32 @@ public class SnakeGame {
             if (i == 0) {
                 switch (currentDirection) {
                     case UP:
-                        snake.get(i).decreaseY(INCREMENT);
+                        snake.get(i).decreaseY(UNIT_SIZE);
+                        checkBoundaries(snake.get(i));
                         checkSnakeCollision(snake.get(i));
                         checkApple();
                         sleep();
                         gameWindow.repaint();
                         break;
                     case DOWN:
-                        snake.get(i).increaseY(INCREMENT);
+                        snake.get(i).increaseY(UNIT_SIZE);
+                        checkBoundaries(snake.get(i));
                         checkSnakeCollision(snake.get(i));
                         checkApple();
                         sleep();
                         gameWindow.repaint();
                         break;
                     case RIGHT:
-                        snake.get(i).increaseX(INCREMENT);
+                        snake.get(i).increaseX(UNIT_SIZE);
+                        checkBoundaries(snake.get(i));
                         checkSnakeCollision(snake.get(i));
                         checkApple();
                         sleep();
                         gameWindow.repaint();
                         break;
                     case LEFT:
-                        snake.get(i).decreaseX(INCREMENT);
+                        snake.get(i).decreaseX(UNIT_SIZE);
+                        checkBoundaries(snake.get(i));
                         checkSnakeCollision(snake.get(i));
                         checkApple();
                         sleep();
@@ -178,6 +181,21 @@ public class SnakeGame {
             }
         }
     }
+
+    private void checkBoundaries(SnakePart snakePart) {
+        if (snakePart.getX() == 0) {
+            snakePart.setX(WIDTH_WINDOW);
+        } else if (snakePart.getX() == WIDTH_WINDOW) {
+            snakePart.setX(0);
+        } else if (snakePart.getY() ==  -40) {
+            snakePart.setY(540);
+        } else if (snakePart.getY() == 540) {
+            snakePart.setY(-40);
+        }
+
+
+    }
+
 
 
 }
