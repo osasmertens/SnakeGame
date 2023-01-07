@@ -2,11 +2,12 @@ package game;
 
 import entities.Apple;
 import entities.SnakePart;
+import gui.GameOverPanel;
 import gui.GameWindow;
 
 import javax.swing.JLabel;
 import javax.swing.KeyStroke;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Random;
@@ -41,6 +42,7 @@ public class SnakeGame {
         scoreLabel.setText("Score: " + score);
         gameOver = false;
         startGame();
+        setGameOver();
     }
 
     private void createSnake() {
@@ -60,7 +62,6 @@ public class SnakeGame {
                 switch (currentDirection) {
                     case UP:
                         snake.get(i).decreaseY(UNIT_SIZE);
-                        checkBoundaries(snake.get(i));
                         checkSnakeCollision(snake.get(i));
                         checkApple();
                         sleep();
@@ -68,7 +69,6 @@ public class SnakeGame {
                         break;
                     case DOWN:
                         snake.get(i).increaseY(UNIT_SIZE);
-                        checkBoundaries(snake.get(i));
                         checkSnakeCollision(snake.get(i));
                         checkApple();
                         sleep();
@@ -76,7 +76,6 @@ public class SnakeGame {
                         break;
                     case RIGHT:
                         snake.get(i).increaseX(UNIT_SIZE);
-                        checkBoundaries(snake.get(i));
                         checkSnakeCollision(snake.get(i));
                         checkApple();
                         sleep();
@@ -84,7 +83,6 @@ public class SnakeGame {
                         break;
                     case LEFT:
                         snake.get(i).decreaseX(UNIT_SIZE);
-                        checkBoundaries(snake.get(i));
                         checkSnakeCollision(snake.get(i));
                         checkApple();
                         sleep();
@@ -123,16 +121,12 @@ public class SnakeGame {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_RIGHT && currentDirection != Direction.LEFT) {
                     newDirection = Direction.RIGHT;
-                    System.out.println("Pressed Right");
                 } else if (e.getKeyCode() == KeyEvent.VK_LEFT && currentDirection != Direction.RIGHT) {
                     newDirection = Direction.LEFT;
-                    System.out.println("Pressed Left");
                 } else if (e.getKeyCode() == KeyEvent.VK_UP && currentDirection != Direction.DOWN) {
                     newDirection = Direction.UP;
-                    System.out.println("Pressed Up");
                 } else if (e.getKeyCode() == KeyEvent.VK_DOWN && currentDirection != Direction.UP) {
                     newDirection = Direction.DOWN;
-                    System.out.println("Pressed Down");
                 }
             }
 
@@ -147,6 +141,8 @@ public class SnakeGame {
     private void startGame() {
         while (!gameOver) {
             move();
+            checkBoundaries();
+            System.out.printf("X: %s, Y: %s%n", snake.get(0).getX(), snake.get(0).getY());
         }
     }
 
@@ -155,7 +151,6 @@ public class SnakeGame {
         apple.setY(random.nextInt((HEIGHT /UNIT_SIZE)  - UNIT_SIZE) * UNIT_SIZE);
         for (SnakePart snakePart : snake) {
             if (snakePart.getX() == apple.getX() && snakePart.getY() == apple.getY()) {
-                System.out.println("Apple on snake!");
                 generateNewFoodPosition();
             }
         }
@@ -182,18 +177,26 @@ public class SnakeGame {
         }
     }
 
-    private void checkBoundaries(SnakePart snakePart) {
-        if (snakePart.getX() == 0 - UNIT_SIZE) {
-            snakePart.setX(WIDTH - UNIT_SIZE);
-        } else if (snakePart.getX() == WIDTH - UNIT_SIZE) {
-            snakePart.setX(0 - UNIT_SIZE);
-        } else if (snakePart.getY() ==  0 - UNIT_SIZE) {
-            snakePart.setY(HEIGHT - UNIT_SIZE);
-        } else if (snakePart.getY() == HEIGHT - UNIT_SIZE) {
-            snakePart.setY(0 - UNIT_SIZE);
+    private void checkBoundaries() {
+        if (snake.get(0).getX() == 0 - UNIT_SIZE) {
+            snake.get(0).setX(WIDTH - UNIT_SIZE);
+        } else if (snake.get(0).getX() == WIDTH) {
+            snake.get(0).setX(0);
+        } else if (snake.get(0).getY() ==  0 - UNIT_SIZE) {
+            snake.get(0).setY(HEIGHT - UNIT_SIZE);
+        } else if (snake.get(0).getY() == HEIGHT) {
+            snake.get(0).setY(0);
         }
+    }
 
-
+    private void setGameOver() {
+        if (gameOver) {
+            gameWindow.remove(gameWindow.getGamePanel());
+            GameOverPanel gameOverPanel  = new GameOverPanel(WIDTH, HEIGHT);
+            gameWindow.add(gameOverPanel, BorderLayout.CENTER);
+            gameWindow.revalidate();
+            gameWindow.pack();
+        }
     }
 
 

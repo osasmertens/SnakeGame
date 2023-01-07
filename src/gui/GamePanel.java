@@ -3,7 +3,7 @@ package gui;
 import entities.Apple;
 import entities.SnakePart;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -18,13 +18,13 @@ public class GamePanel extends JPanel {
     public GamePanel(CopyOnWriteArrayList<SnakePart> snake, Apple apple, int width, int height, int unitsize) {
         setBackground(Color.BLACK);
         setPreferredSize(new Dimension(width, height));
+        setBorder(BorderFactory.createLineBorder(Color.WHITE, 3));
         this.snake = snake;
         this.apple = apple;
         this.UNIT_SIZE = unitsize;
     }
 
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);
         drawSnake(g);
         drawApple(g);
     }
