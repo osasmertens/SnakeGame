@@ -16,15 +16,15 @@ public class GameWindow extends JFrame {
     public GameWindow(CopyOnWriteArrayList<SnakePart> snake, Apple apple, int width, int height, int unitsize) {
         super("Snake: The game");
         setResizable(false);
-        setSize(width, height);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
         getContentPane().setBackground(Color.BLACK);
         getContentPane().setLayout(new BorderLayout());
-        gamePanel = new GamePanel(snake, apple, unitsize);
+        gamePanel = new GamePanel(snake, apple, width, height, unitsize);
         infoPanel = new InfoPanel();
-        getContentPane().add(infoPanel, BorderLayout.NORTH);
-        getContentPane().add(gamePanel, BorderLayout.CENTER);
+        add(infoPanel, BorderLayout.NORTH);
+        add(gamePanel, BorderLayout.CENTER);
+        pack();
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 

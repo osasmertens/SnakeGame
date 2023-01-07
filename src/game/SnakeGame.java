@@ -13,8 +13,8 @@ import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class SnakeGame {
-    private final int WIDTH_WINDOW = 800;
-    private final int HEIGHT_WINDOW = 600;
+    private final int WIDTH = 800;
+    private final int HEIGHT = 600;
     private final int SLEEP_INTERVAL = 100;
     private final int UNIT_SIZE = 20;
     private boolean gameOver;
@@ -35,7 +35,7 @@ public class SnakeGame {
         currentDirection = Direction.RIGHT;
         newDirection = Direction.RIGHT;
         generateApple();
-        gameWindow = new GameWindow(snake, apple, WIDTH_WINDOW, HEIGHT_WINDOW, UNIT_SIZE);
+        gameWindow = new GameWindow(snake, apple, WIDTH, HEIGHT, UNIT_SIZE);
         setKeyBindings();
         scoreLabel = gameWindow.getInfoPanel().getScoreLabel();
         scoreLabel.setText("Score: " + score);
@@ -51,7 +51,7 @@ public class SnakeGame {
 
     private void generateApple() {
         Random random = new Random();
-        apple = new Apple(Color.RED, random.nextInt(WIDTH_WINDOW/ UNIT_SIZE)* UNIT_SIZE, random.nextInt(HEIGHT_WINDOW/ UNIT_SIZE)* UNIT_SIZE);
+        apple = new Apple(Color.RED, random.nextInt(WIDTH / UNIT_SIZE)* UNIT_SIZE, random.nextInt(HEIGHT / UNIT_SIZE)* UNIT_SIZE);
     }
 
     private void move() {
@@ -151,8 +151,8 @@ public class SnakeGame {
     }
 
     public void generateNewFoodPosition() {
-        apple.setX(random.nextInt((WIDTH_WINDOW/UNIT_SIZE) - UNIT_SIZE) * UNIT_SIZE );
-        apple.setY(random.nextInt((HEIGHT_WINDOW/UNIT_SIZE)  - UNIT_SIZE) * UNIT_SIZE);
+        apple.setX(random.nextInt((WIDTH /UNIT_SIZE) - UNIT_SIZE) * UNIT_SIZE );
+        apple.setY(random.nextInt((HEIGHT /UNIT_SIZE)  - UNIT_SIZE) * UNIT_SIZE);
         for (SnakePart snakePart : snake) {
             if (snakePart.getX() == apple.getX() && snakePart.getY() == apple.getY()) {
                 System.out.println("Apple on snake!");
@@ -183,14 +183,14 @@ public class SnakeGame {
     }
 
     private void checkBoundaries(SnakePart snakePart) {
-        if (snakePart.getX() == 0) {
-            snakePart.setX(WIDTH_WINDOW);
-        } else if (snakePart.getX() == WIDTH_WINDOW) {
-            snakePart.setX(0);
-        } else if (snakePart.getY() ==  -40) {
-            snakePart.setY(540);
-        } else if (snakePart.getY() == 540) {
-            snakePart.setY(-40);
+        if (snakePart.getX() == 0 - UNIT_SIZE) {
+            snakePart.setX(WIDTH - UNIT_SIZE);
+        } else if (snakePart.getX() == WIDTH - UNIT_SIZE) {
+            snakePart.setX(0 - UNIT_SIZE);
+        } else if (snakePart.getY() ==  0 - UNIT_SIZE) {
+            snakePart.setY(HEIGHT - UNIT_SIZE);
+        } else if (snakePart.getY() == HEIGHT - UNIT_SIZE) {
+            snakePart.setY(0 - UNIT_SIZE);
         }
 
 

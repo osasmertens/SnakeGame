@@ -11,15 +11,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GamePanel extends JPanel {
 
-    private final int HEIGHT_PANEL = 800;
-    private final int WIDTH_PANEL = 600;
     private final int UNIT_SIZE;
     private CopyOnWriteArrayList<SnakePart> snake;
     private Apple apple;
 
-    public GamePanel(CopyOnWriteArrayList<SnakePart> snake, Apple apple, int unitsize) {
+    public GamePanel(CopyOnWriteArrayList<SnakePart> snake, Apple apple, int width, int height, int unitsize) {
         setBackground(Color.BLACK);
-        setPreferredSize(new Dimension(WIDTH_PANEL, HEIGHT_PANEL));
+        setPreferredSize(new Dimension(width, height));
         this.snake = snake;
         this.apple = apple;
         this.UNIT_SIZE = unitsize;
