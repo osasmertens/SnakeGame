@@ -4,10 +4,10 @@ import entities.Apple;
 import entities.SnakePart;
 import gui.GameOverPanel;
 import gui.GameWindow;
-
 import javax.swing.JLabel;
 import javax.swing.KeyStroke;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Random;
@@ -24,7 +24,7 @@ public class SnakeGame {
     private Apple apple;
     private Direction currentDirection;
     private Direction newDirection;
-    private Random random;
+    private final Random random;
     private int score;
     private JLabel scoreLabel;
     private final int ADDED_SCORE = 10;
@@ -41,9 +41,12 @@ public class SnakeGame {
         scoreLabel = gameWindow.getInfoPanel().getScoreLabel();
         scoreLabel.setText("Score: " + score);
         gameOver = false;
+        gameWindow.revalidate();
+        gameWindow.repaint();
         startGame();
         setGameOver();
     }
+
 
     private void createSnake() {
         snake = new CopyOnWriteArrayList<>();
@@ -142,7 +145,7 @@ public class SnakeGame {
         while (!gameOver) {
             move();
             checkBoundaries();
-            System.out.printf("X: %s, Y: %s%n", snake.get(0).getX(), snake.get(0).getY());
+            //System.out.printf("X: %s, Y: %s%n", snake.get(0).getX(), snake.get(0).getY());
         }
     }
 
@@ -193,8 +196,23 @@ public class SnakeGame {
         if (gameOver) {
             gameWindow.remove(gameWindow.getGamePanel());
             GameOverPanel gameOverPanel  = new GameOverPanel(WIDTH, HEIGHT);
+            gameOverPanel.getRestartGameButton().addActionListener(e -> {
+                if (e.getSource() == gameOverPanel.getRestartGameButton()) {
+                    gameWindow.dispose();
+                    Thread thread = new Thread(() -> {
+                        SnakeGame snakeGame = new SnakeGame();
+                    });
+                    thread.start();
+                }
+            });
+            gameOverPanel.getQuitGameButton().addActionListener(e -> {
+                if (e.getSource() == gameOverPanel.getQuitGameButton()) {
+                    System.exit(0);
+                }
+            });
             gameWindow.add(gameOverPanel, BorderLayout.CENTER);
             gameWindow.revalidate();
+            gameWindow.repaint();
             gameWindow.pack();
         }
     }

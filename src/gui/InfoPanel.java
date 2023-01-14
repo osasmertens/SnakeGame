@@ -21,6 +21,7 @@ public class InfoPanel extends JPanel {
         scoreLabel.setForeground(Color.WHITE);
         scoreLabel.setFont(new Font("Courier", 1, 26));
         add(scoreLabel);
+        revalidate();
     }
 
     public JLabel getScoreLabel() {
