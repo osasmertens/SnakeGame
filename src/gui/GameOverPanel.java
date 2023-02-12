@@ -12,10 +12,11 @@ import java.awt.Font;
 
 public class GameOverPanel extends JPanel {
 
-    private JPanel gameOverPanel;
-    private JPanel buttonPanel;
-    private JButton restartGameButton;
-    private JButton quitGameButton;
+    private final JPanel gameOverPanel;
+    private final JPanel buttonPanel;
+    private final JButton restartGameButton;
+    private final JButton quitGameButton;
+    private final JButton mainMenuButton;
 
     public GameOverPanel( int width, int height) {
         setPreferredSize(new Dimension(width, height));
@@ -26,7 +27,7 @@ public class GameOverPanel extends JPanel {
         gameOverPanel.setBackground(Color.BLACK);
         gameOverPanel.setLayout(new BorderLayout());
         JLabel gameOverLabel = new JLabel("GAME OVER");
-        gameOverLabel.setFont(new Font("Courier", 1, 52));
+        gameOverLabel.setFont(new Font("Courier", Font.BOLD, 52));
         gameOverLabel.setForeground(Color.RED);
         gameOverLabel.setHorizontalAlignment(SwingConstants.CENTER);
         gameOverLabel.setVerticalAlignment(SwingConstants.CENTER);
@@ -35,16 +36,24 @@ public class GameOverPanel extends JPanel {
         buttonPanel.setPreferredSize(new Dimension(width, 100));
         buttonPanel.setBackground(Color.BLACK);
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 0));
-        restartGameButton = new JButton("RESTART GAME");
-        quitGameButton = new JButton("QUIT GAME");
+        restartGameButton = new JButton("restart game".toUpperCase());
+        quitGameButton = new JButton("quit game".toUpperCase());
+        mainMenuButton = new JButton("main menu".toUpperCase());
         quitGameButton.setPreferredSize(new Dimension(150,50));
+        quitGameButton.setBackground(Color.LIGHT_GRAY);
         quitGameButton.setHorizontalAlignment(SwingConstants.CENTER);
         quitGameButton.setVerticalAlignment(SwingConstants.CENTER);
         restartGameButton.setPreferredSize(new Dimension(150,50));
+        restartGameButton.setBackground(Color.LIGHT_GRAY);
         restartGameButton.setHorizontalAlignment(SwingConstants.CENTER);
         restartGameButton.setVerticalAlignment(SwingConstants.CENTER);
-        buttonPanel.add(quitGameButton);
+        mainMenuButton.setPreferredSize(new Dimension(150,50));
+        mainMenuButton.setBackground(Color.LIGHT_GRAY);
+        mainMenuButton.setHorizontalAlignment(SwingConstants.CENTER);
+        mainMenuButton.setVerticalAlignment(SwingConstants.CENTER);
         buttonPanel.add(restartGameButton);
+        buttonPanel.add(mainMenuButton);
+        buttonPanel.add(quitGameButton);
         add(gameOverPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
     }
@@ -55,5 +64,9 @@ public class GameOverPanel extends JPanel {
 
     public JButton getQuitGameButton() {
         return quitGameButton;
+    }
+
+    public JButton getMainMenuButton() {
+        return mainMenuButton;
     }
 }

@@ -1,8 +1,9 @@
-import game.SnakeGame;
+import gui.GameMenu;
 
 public class Main {
 
     public static void main(String[] args) {
-        SnakeGame game = new SnakeGame();
+         new GameMenu();
+
     }
 }

@@ -10,16 +10,18 @@ import java.awt.Color;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GameWindow extends JFrame {
-    private JPanel gamePanel;
-    private InfoPanel infoPanel;
+    private final JPanel gamePanel;
+    private final InfoPanel infoPanel;
 
-    private GameOverPanel gameOverPanel;
-
-    public GameWindow(CopyOnWriteArrayList<SnakePart> snake, Apple apple, int width, int height, int unitSize) {
-        setTitle("Snake: The game");
+    public GameWindow(CopyOnWriteArrayList<SnakePart> snake,
+                      Apple apple,
+                      int width,
+                      int height,
+                      int unitSize) {
+        setTitle("Snake: Java Edition");
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ImageIcon imageIcon = new ImageIcon("src/resources/snake.png");
+        ImageIcon imageIcon = new ImageIcon("src/resources/snakeicon.png");
         setIconImage(imageIcon.getImage());
         getContentPane().setBackground(Color.BLACK);
         gamePanel = new GamePanel(snake, apple, width, height, unitSize);

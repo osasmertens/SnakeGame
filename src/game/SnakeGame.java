@@ -2,6 +2,7 @@ package game;
 
 import entities.Apple;
 import entities.SnakePart;
+import gui.GameMenu;
 import gui.GameOverPanel;
 import gui.GameWindow;
 import javax.swing.JLabel;
@@ -19,14 +20,14 @@ public class SnakeGame {
     private final int SLEEP_INTERVAL = 100;
     private final int UNIT_SIZE = 20;
     private boolean gameOver;
-    private GameWindow gameWindow;
+    private final GameWindow gameWindow;
     private CopyOnWriteArrayList<SnakePart> snake;
     private Apple apple;
     private Direction currentDirection;
     private Direction newDirection;
     private final Random random;
     private int score;
-    private JLabel scoreLabel;
+    private final JLabel scoreLabel;
     private final int ADDED_SCORE = 10;
 
     public SnakeGame() {
@@ -56,41 +57,42 @@ public class SnakeGame {
 
     private void generateApple() {
         Random random = new Random();
-        apple = new Apple(Color.RED, random.nextInt(WIDTH / UNIT_SIZE)* UNIT_SIZE, random.nextInt(HEIGHT / UNIT_SIZE)* UNIT_SIZE);
+        apple = new Apple(Color.RED, random.nextInt(WIDTH / UNIT_SIZE)* UNIT_SIZE,
+                random.nextInt(HEIGHT / UNIT_SIZE)* UNIT_SIZE);
     }
 
     private void move() {
         for (int i = snake.size() - 1; i >= 0; i--) {
             if (i == 0) {
                 switch (currentDirection) {
-                    case UP:
+                    case UP -> {
                         snake.get(i).decreaseY(UNIT_SIZE);
                         checkSnakeCollision(snake.get(i));
                         checkApple();
                         sleep();
                         gameWindow.repaint();
-                        break;
-                    case DOWN:
+                    }
+                    case DOWN -> {
                         snake.get(i).increaseY(UNIT_SIZE);
                         checkSnakeCollision(snake.get(i));
                         checkApple();
                         sleep();
                         gameWindow.repaint();
-                        break;
-                    case RIGHT:
+                    }
+                    case RIGHT -> {
                         snake.get(i).increaseX(UNIT_SIZE);
                         checkSnakeCollision(snake.get(i));
                         checkApple();
                         sleep();
                         gameWindow.repaint();
-                        break;
-                    case LEFT:
+                    }
+                    case LEFT -> {
                         snake.get(i).decreaseX(UNIT_SIZE);
                         checkSnakeCollision(snake.get(i));
                         checkApple();
                         sleep();
                         gameWindow.repaint();
-                        break;
+                    }
                 }
             }
             else {
@@ -110,10 +112,14 @@ public class SnakeGame {
     }
 
     private void setKeyBindings() {
-        gameWindow.getGamePanel().getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_UP,0, true), "move up");
-        gameWindow.getGamePanel().getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,0, true), "move down");
-        gameWindow.getGamePanel().getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT,0, true), "move left");
-        gameWindow.getGamePanel().getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT,0, true), "move right");
+        gameWindow.getGamePanel().getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_UP,
+                0, true), "move up");
+        gameWindow.getGamePanel().getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,
+                0, true), "move down");
+        gameWindow.getGamePanel().getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT,
+                0, true), "move left");
+        gameWindow.getGamePanel().getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT,
+                0, true), "move right");
         KeyListener keyListener = new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -145,7 +151,6 @@ public class SnakeGame {
         while (!gameOver) {
             move();
             checkBoundaries();
-            //System.out.printf("X: %s, Y: %s%n", snake.get(0).getX(), snake.get(0).getY());
         }
     }
 
@@ -162,7 +167,9 @@ public class SnakeGame {
     private void checkApple() {
         if (snake.get(0).getX() == apple.getX() && snake.get(0).getY() == apple.getY()) {
             increaseScore();
-            snake.add(new SnakePart(Color.GREEN, snake.get(snake.size() - 1).getX(), snake.get(snake.size() - 1).getY()));
+            snake.add(new SnakePart(Color.GREEN,
+                    snake.get(snake.size() - 1).getX(),
+                    snake.get(snake.size() - 1).getY()));
             generateNewFoodPosition();
         }
     }
@@ -176,6 +183,7 @@ public class SnakeGame {
         for (int i = 1; i < snake.size() - 1; i++) {
             if (head.getX() == snake.get(i).getX() && head.getY() == snake.get(i).getY()) {
                 gameOver = true;
+                break;
             }
         }
     }
@@ -199,9 +207,7 @@ public class SnakeGame {
             gameOverPanel.getRestartGameButton().addActionListener(e -> {
                 if (e.getSource() == gameOverPanel.getRestartGameButton()) {
                     gameWindow.dispose();
-                    Thread thread = new Thread(() -> {
-                        SnakeGame snakeGame = new SnakeGame();
-                    });
+                    Thread thread = new Thread(SnakeGame::new);
                     thread.start();
                 }
             });
@@ -209,6 +215,10 @@ public class SnakeGame {
                 if (e.getSource() == gameOverPanel.getQuitGameButton()) {
                     System.exit(0);
                 }
+            });
+            gameOverPanel.getMainMenuButton().addActionListener(e -> {
+                gameWindow.dispose();
+                new GameMenu();
             });
             gameWindow.add(gameOverPanel, BorderLayout.CENTER);
             gameWindow.revalidate();
